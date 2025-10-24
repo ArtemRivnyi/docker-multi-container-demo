@@ -1,0 +1,44 @@
+# Dependency directories
+**/node_modules
+**/npm-debug.log
+**/yarn-error.log
+
+# Version control
+.git
+.gitignore
+.github
+
+# Documentation
+README.md
+*.txt
+*.pdf
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# IDE and editor files
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS specific files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Log files
+*.log
+logs
+
+# Docker files
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Build and distribution directories
+dist
+build
+.coverage
