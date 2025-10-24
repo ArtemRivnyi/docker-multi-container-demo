@@ -2,37 +2,51 @@
 
 A professional multi-container Docker Compose setup demonstrating container orchestration, inter-service communication, and Redis caching in a cross-platform environment.
 
-[![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
-[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
-[![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)](https://redis.io/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/) [![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/) [![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)](https://redis.io/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## 📖 Table of Contents
 
-*   [✨ Overview](#-overview)
-*   [🎯 What You'll Learn](#-what-youll-learn)
-*   [🚀 Quick Start](#-quick-start)
-*   [📁 Project Structure](#-project-structure)
-*   [🏗️ Architecture & Data Flow](#️-architecture--data-flow)
-*   [🔧 How It Works](#-how-it-works)
-    *   [Docker Compose Orchestration](#docker-compose-orchestration)
-    *   [Service Dependencies & Health Checks](#service-dependencies--health-checks)
-    *   [Networking & Communication](#networking--communication)
-    *   [Data Persistence](#data-persistence)
-*   [📌 API Endpoints](#-api-endpoints)
-*   [🛠️ Installation & Usage](#️-installation--usage)
-    *   [Prerequisites](#prerequisites)
-    *   [Initial Setup](#initial-setup)
-    *   [Running the Application](#running-the-application)
-    *   [Using Makefile Commands](#using-makefile-commands)
-*   [🧪 Testing](#-testing)
-*   [🌐 Cross-Platform Compatibility](#-cross-platform-compatibility)
-*   [📊 Monitoring & Logs](#-monitoring--logs)
-*   [🔐 Security Best Practices](#-security-best-practices)
-*   [🚨 Troubleshooting](#-troubleshooting)
-*   [🚀 Deployment Considerations](#-deployment-considerations)
-*   [🤝 Contributing](#-contributing)
-*   [📄 License](#-license)
+- [✨ Overview](#-overview)
+
+- [🎯 What You'll Learn](#-what-youll-learn)
+
+- [🚀 Quick Start](#-quick-start)
+
+- [📁 Project Structure](#-project-structure)
+
+- [🏗️ Architecture & Data Flow](#%EF%B8%8F-architecture--data-flow)
+
+- [🔧 How It Works](#-how-it-works)
+  - [Docker Compose Orchestration](#docker-compose-orchestration)
+  - [Service Dependencies & Health Checks](#service-dependencies--health-checks)
+  - [Networking & Communication](#networking--communication)
+  - [Data Persistence](#data-persistence)
+
+- [📌 API Endpoints](#-api-endpoints)
+
+- [🛠️ Installation & Usage](#%EF%B8%8F-installation--usage)
+  - [Prerequisites](#prerequisites)
+  - [Initial Setup](#initial-setup)
+  - [Running the Application](#running-the-application)
+  - [Using Makefile Commands](#using-makefile-commands)
+
+- [🧪 Testing](#-testing)
+
+- [🌐 Cross-Platform Compatibility](#-cross-platform-compatibility)
+
+- [📊 Monitoring & Logs](#-monitoring--logs)
+
+- [🔐 Security Best Practices](#-security-best-practices)
+
+- [🚨 Troubleshooting](#-troubleshooting)
+
+- [🚀 Deployment Considerations](#-deployment-considerations)
+
+- [🤝 Contributing](#-contributing)
+
+- [📄 License](#-license)
+
+- [🧰 Maintainer](#-maintainer)
 
 ---
 
@@ -41,11 +55,17 @@ A professional multi-container Docker Compose setup demonstrating container orch
 This repository provides a **production-ready template** for building and running multi-service applications using **Docker Compose**. It features a modern **Node.js (Express)** API server that uses **Redis** as an in-memory data store for caching and key-value operations.
 
 **Key Highlights:**
+
 - 🐳 **Multi-container orchestration** with Docker Compose
+
 - 🔄 **Service health monitoring** with automatic restart policies
+
 - 🌐 **Cross-platform compatibility** (Linux, macOS, Windows)
+
 - 💾 **Data persistence** with Docker volumes
+
 - 🔒 **Security best practices** (non-root user, minimal image)
+
 - 📊 **Comprehensive logging** and error handling
 
 ---
@@ -55,7 +75,7 @@ This repository provides a **production-ready template** for building and runnin
 By exploring this project, you'll understand:
 
 | Concept | Implementation in This Project |
-|:--------|:------------------------------|
+| --- | --- |
 | **Container Orchestration** | Docker Compose coordinates API and Redis services |
 | **Service Discovery** | Containers communicate using service names (`redis`, `api`) |
 | **Health Checks** | Ensures services are ready before accepting connections |
@@ -116,7 +136,7 @@ docker-multi-container-demo/
 ### File Descriptions
 
 | File | Purpose | Key Features |
-|:-----|:--------|:-------------|
+| --- | --- | --- |
 | `docker-compose.yml` | Orchestrates both services | Defines networks, volumes, health checks, dependencies |
 | `.env.example` | Configuration template | Documents all available environment variables |
 | `.env` | Active configuration | **You create this** - actual values used by Docker Compose |
@@ -133,24 +153,24 @@ docker-multi-container-demo/
 ### High-Level Architecture
 
 ```
-┌──────────────────────────────────────────────────────────────┐
+┌─────────────────────────────────────────────────────────────┐
 │                      Docker Host                             │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │            Docker Compose (app-network)                │  │
-│  │                                                        │  │
-│  │  ┌─────────────────┐         ┌──────────────────┐      │  │
-│  │  │   Node.js API   │◄────────┤  Redis Cache     │      │  │
-│  │  │   (Express)     │  Redis  │  (In-Memory DB)  │      │  │
-│  │  │   Port: 3000    │ Client  │                  │      │  │
-│  │  └────────┬────────┘         └────────┬─────────┘      │  │
-│  │           │                           │                │  │
-│  │           │                           │                │  │
-│  │    Health Check                Volume Mount            │  │
-│  │    (HTTP /health)            (redis_data:/data)        │  │
-│  └────────────────────────────────────────────────────────┘  │
+│  ┌────────────────────────────────────────────────────────┐ │
+│  │            Docker Compose (app-network)                │ │
+│  │                                                         │ │
+│  │  ┌─────────────────┐         ┌──────────────────┐    │ │
+│  │  │   Node.js API   │◄────────┤  Redis Cache     │    │ │
+│  │  │   (Express)     │  Redis  │  (In-Memory DB)  │    │ │
+│  │  │   Port: 3000    │ Client  │                  │    │ │
+│  │  └────────┬────────┘         └────────┬─────────┘    │ │
+│  │           │                           │              │ │
+│  │           │                           │              │ │
+│  │    Health Check                Volume Mount         │ │
+│  │    (HTTP /health)            (redis_data:/data)     │ │
+│  └────────────────────────────────────────────────────────┘ │
 │           │                                                  │
-│      Port Mapping                                            │
-│      3000:3000                                               │
+│      Port Mapping                                           │
+│      3000:3000                                              │
 └───────────┼──────────────────────────────────────────────────┘
             │
             ▼
@@ -211,8 +231,11 @@ services:
 ```
 
 **Key Points:**
+
 - **Build vs Image**: API is built from source, Redis uses official image
+
 - **Dependency Order**: API waits for Redis health check before starting
+
 - **Restart Policy**: `unless-stopped` ensures services auto-recover from crashes
 
 ### Service Dependencies & Health Checks
@@ -222,6 +245,7 @@ services:
 Without health checks, Docker Compose might start the API before Redis is ready, causing connection errors. Our configuration prevents this:
 
 **Redis Health Check:**
+
 ```yaml
 healthcheck:
   test: ["CMD", "redis-cli", "ping"]  # Returns PONG when ready
@@ -232,6 +256,7 @@ healthcheck:
 ```
 
 **API Health Check:**
+
 ```yaml
 healthcheck:
   test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
@@ -242,6 +267,7 @@ healthcheck:
 ```
 
 **Health Check Flow:**
+
 ```
 1. Docker starts Redis container
 2. Health check runs: redis-cli ping → PONG ✓
@@ -268,10 +294,14 @@ const client = redis.createClient({
 ```
 
 **How DNS Resolution Works:**
+
 1. API container looks up hostname `redis`
-2. Docker's embedded DNS resolves `redis` → `172.18.0.3` (internal IP)
-3. Connection established over private bridge network
-4. **External clients cannot access Redis directly** (no port mapping)
+
+1. Docker's embedded DNS resolves `redis` → `172.18.0.3` (internal IP)
+
+1. Connection established over private bridge network
+
+1. **External clients cannot access Redis directly** (no port mapping)
 
 #### Port Mapping
 
@@ -281,7 +311,9 @@ ports:
 ```
 
 - **Left side (3000)**: Port on your machine
+
 - **Right side (3000)**: Port inside container
+
 - Only the API is exposed to the host; Redis remains internal
 
 ### Data Persistence
@@ -300,12 +332,17 @@ Redis is configured with `--appendonly yes` to persist data:
 ```
 
 **How It Works:**
+
 1. Every write operation (SET, DEL, etc.) is logged to `appendonly.aof`
-2. File is synced to disk (fsync) periodically
-3. On restart, Redis replays the AOF to restore data
-4. **Volume `redis_data`** survives container destruction
+
+1. File is synced to disk (fsync) periodically
+
+1. On restart, Redis replays the AOF to restore data
+
+1. **Volume ****`redis_data`** survives container destruction
 
 **Testing Persistence:**
+
 ```bash
 # Set a key
 curl -X POST -H "Content-Type: application/json" \
@@ -322,6 +359,7 @@ curl http://localhost:3000/get/persistent  # → {"key":"persistent","value":"te
 ```
 
 **⚠️ Volume Deletion:**
+
 ```bash
 # This DELETES all Redis data permanently
 docker-compose down -v  # -v flag removes volumes
@@ -332,7 +370,7 @@ docker-compose down -v  # -v flag removes volumes
 ## 📌 API Endpoints
 
 | Method | Endpoint | Description | Request Body | Response Example |
-|:-------|:---------|:------------|:-------------|:-----------------|
+| --- | --- | --- | --- | --- |
 | `GET` | `/` | API information and available endpoints | - | `{"message": "Hello from Dockerized Node.js API...", "endpoints": {...}}` |
 | `GET` | `/health` | Service health check (used by Docker) | - | `{"status": "OK", "timestamp": "2025-10-24T...", "service": "Node.js API"}` |
 | `POST` | `/set` | Store key-value pair in Redis | `{"key": "string", "value": "string"}` | `{"status": "Key \"username\" set successfully!"}` |
@@ -349,6 +387,7 @@ curl -X POST http://localhost:3000/set \
 ```
 
 **Success Response (200):**
+
 ```json
 {
   "status": "Key \"user:1001\" set successfully!"
@@ -356,6 +395,7 @@ curl -X POST http://localhost:3000/set \
 ```
 
 **Error Response (400 - Missing Key/Value):**
+
 ```json
 {
   "error": "Please provide both \"key\" and \"value\" in the JSON body."
@@ -363,6 +403,7 @@ curl -X POST http://localhost:3000/set \
 ```
 
 **Error Response (500 - Redis Unavailable):**
+
 ```json
 {
   "error": "Failed to set key in Redis",
@@ -377,6 +418,7 @@ curl http://localhost:3000/get/user:1001
 ```
 
 **Success Response (200):**
+
 ```json
 {
   "key": "user:1001",
@@ -385,6 +427,7 @@ curl http://localhost:3000/get/user:1001
 ```
 
 **Error Response (404 - Key Not Found):**
+
 ```json
 {
   "error": "Key \"user:1001\" not found."
@@ -392,7 +435,9 @@ curl http://localhost:3000/get/user:1001
 ```
 
 #### 3. Health Check (GET /health)
+
 #### 4. Error Handling (404 Not Found)
+
 #### 5. Global Error Handler (500 Internal Server Error)
 
 ```bash
@@ -400,6 +445,7 @@ curl http://localhost:3000/health
 ```
 
 **Response (200):**
+
 ```json
 {
   "status": "OK",
@@ -418,6 +464,7 @@ curl http://localhost:3000/nonexistent/route
 ```
 
 **Response (404):**
+
 ```json
 {
   "error": "Endpoint not found",
@@ -430,6 +477,7 @@ curl http://localhost:3000/nonexistent/route
 The API includes a global error handler for unhandled exceptions:
 
 **Response (500):**
+
 ```json
 {
   "error": "Internal server error",
@@ -446,13 +494,14 @@ The API includes a global error handler for unhandled exceptions:
 Before starting, ensure you have:
 
 | Software | Minimum Version | Installation Guide |
-|:---------|:---------------|:-------------------|
+| --- | --- | --- |
 | **Docker** | 20.10+ | [docs.docker.com/get-docker](https://docs.docker.com/get-docker/) |
 | **Docker Compose** | 1.29+ (or Docker Desktop) | [docs.docker.com/compose/install](https://docs.docker.com/compose/install/) |
 | **Git** | 2.0+ | [git-scm.com/downloads](https://git-scm.com/downloads) |
 | **curl** | Any version | Pre-installed on most systems |
 
 **Verify Installation:**
+
 ```bash
 docker --version          # Should show: Docker version 24.x.x
 docker-compose --version  # Should show: Docker Compose version 2.x.x
@@ -477,8 +526,9 @@ cp .env.example .env
 nano .env  # or use your preferred editor
 ```
 
-**Default `.env` Configuration:**
-```env
+**Default ****`.env`**** Configuration:**
+
+```
 # API Service Configuration
 API_PORT=3000
 
@@ -507,6 +557,7 @@ chmod +x check-env.sh
 ```
 
 **Expected Output:**
+
 ```
 🔍 Docker Multi-Container Demo - Environment Check
 ==================================================
@@ -532,7 +583,7 @@ chmod +x check-env.sh
 #### Method 1: Docker Compose Commands (Recommended)
 
 | Command | Description | When to Use |
-|:--------|:------------|:------------|
+| --- | --- | --- |
 | `docker-compose up --build` | Build images and start services (foreground) | First run or after code changes |
 | `docker-compose up -d` | Start services in detached mode | Production-like running |
 | `docker-compose down` | Stop and remove containers | When done testing |
@@ -542,11 +593,13 @@ chmod +x check-env.sh
 | `docker-compose restart` | Restart all services | After config changes |
 
 **First-Time Startup:**
+
 ```bash
 docker-compose up --build
 ```
 
 **Watch the logs:** You should see:
+
 ```
 redis_cache  | ✅ Ready to accept connections
 node_app     | 🔗 Connecting to Redis...
@@ -583,7 +636,7 @@ make help
 **Makefile Command Reference:**
 
 | Command | Equivalent Docker Compose Command | Description |
-|:--------|:----------------------------------|:------------|
+| --- | --- | --- |
 | `make up` | `docker-compose up -d` | Start in detached mode |
 | `make down` | `docker-compose down` | Stop and remove containers |
 | `make build` | `docker-compose build --no-cache` | Rebuild images from scratch |
@@ -604,8 +657,11 @@ make test
 ```
 
 **What It Tests:**
+
 - ✅ API is accessible on `http://localhost:3000`
+
 - ✅ Health endpoint returns 200 OK
+
 - ✅ Basic HTTP connectivity
 
 ### Manual Testing Suite
@@ -617,6 +673,7 @@ curl http://localhost:3000
 ```
 
 **Expected:**
+
 ```json
 {
   "message": "Hello from Dockerized Node.js API with Redis!",
@@ -638,6 +695,7 @@ curl -X POST http://localhost:3000/set \
 ```
 
 **Expected:**
+
 ```json
 {
   "status": "Key \"test_user\" set successfully!"
@@ -651,6 +709,7 @@ curl http://localhost:3000/get/test_user
 ```
 
 **Expected:**
+
 ```json
 {
   "key": "test_user",
@@ -665,6 +724,7 @@ curl http://localhost:3000/get/nonexistent_key
 ```
 
 **Expected (404):**
+
 ```json
 {
   "error": "Key \"nonexistent_key\" not found."
@@ -710,7 +770,7 @@ ab -n 1000 -c 10 http://localhost:3000/health
 This project is tested and works on:
 
 | OS | Status | Notes |
-|:---|:-------|:------|
+| --- | --- | --- |
 | **Windows 10/11** | ✅ Fully Compatible | Requires Docker Desktop with WSL2 backend |
 | **macOS (Intel)** | ✅ Fully Compatible | Docker Desktop recommended |
 | **macOS (Apple Silicon)** | ✅ Fully Compatible | Uses `platform: linux/amd64` for Redis (explicitly set in `docker-compose.yml`) |
@@ -722,15 +782,19 @@ This project is tested and works on:
 #### Windows (WSL2)
 
 **Recommended Setup:**
+
 1. Install Docker Desktop for Windows
-2. Enable WSL2 integration
-3. Clone repo inside WSL2 filesystem (not `/mnt/c/`)
+
+1. Enable WSL2 integration
+
+1. Clone repo inside WSL2 filesystem (not `/mnt/c/`)
 
 **Why:** WSL2 provides native Linux performance for containers
 
 #### macOS (Apple Silicon M1/M2/M3)
 
 The `docker-compose.yml` explicitly sets the platform for the Redis service:
+
 ```yaml
 redis:
   platform: linux/amd64  # Ensures compatibility on Apple Silicon (M1/M2/M3)
@@ -770,12 +834,14 @@ docker inspect --format='{{.State.Health.Status}}' node_app
 ### Log Format Examples
 
 **API Logs:**
+
 ```
 node_app     | 2025-10-24T14:30:00.123Z - POST /set
 node_app     | ✅ Key "user:1001" set with value "Alice"
 ```
 
 **Redis Logs:**
+
 ```
 redis_cache  | 1:M 24 Oct 2025 14:30:00.456 * Ready to accept connections
 redis_cache  | 1:M 24 Oct 2025 14:30:05.789 * Background saving started
@@ -795,7 +861,7 @@ This project implements several security measures:
 
 ### 1. Non-Root User
 
-```dockerfile
+```
 # api/Dockerfile
 USER node  # Run as unprivileged user
 ```
@@ -823,6 +889,7 @@ networks:
 ### 4. Environment Variables
 
 **Don't hardcode secrets:**
+
 ```yaml
 # BAD
 environment:
@@ -850,48 +917,32 @@ docker-compose up -d --build
 ### Problem: "Cannot connect to Redis"
 
 **Symptoms:**
+
 ```
 node_app | ❌ Redis Client Error: connect ECONNREFUSED
 node_app | ❌ Redis set error: { message: 'The client is not connected' }
 ```
+
 This indicates the Node.js API failed to establish or maintain a connection with the Redis service.
 
 **Solutions:**
+
 1. **Check Redis health:**
-   ```bash
-   docker-compose ps
-   # Ensure redis shows "healthy"
-   ```
 
-2. **View Redis logs:**
-   ```bash
-   docker-compose logs redis
-   ```
+1. **View Redis logs:**
 
-3. **Restart services:**
-   ```bash
-   docker-compose restart
-   ```
-4. **Check Node.js Redis client logs** (from `api/redis-client.js`):
-   The client includes a robust reconnection strategy with event logging:
-   ```
-   🔗 Connecting to Redis...
-   🔄 Reconnecting to Redis...
-   ❌ Redis Client Error: connect ECONNREFUSED
-   ✅ Connected to Redis successfully!
-   ```
+1. **Restart services:**
 
-4. **Check network:**
-   ```bash
-   docker network ls
-   docker network inspect redis-demo_app-network
-   ```
+1. **Check Node.js Redis client logs** (from `api/redis-client.js`): The client includes a robust reconnection strategy with event logging:
+
+1. **Check network:**
 
 ---
 
 ### Problem: "Port 3000 already in use"
 
 **Symptoms:**
+
 ```
 Error: bind: address already in use
 ```
@@ -899,6 +950,7 @@ Error: bind: address already in use
 **Solutions:**
 
 **Option 1: Find and kill the process**
+
 ```bash
 # Linux/macOS
 lsof -i :3000
@@ -910,6 +962,7 @@ taskkill /PID <PID> /F
 ```
 
 **Option 2: Change the port**
+
 ```bash
 # Edit .env
 API_PORT=3001
@@ -923,6 +976,7 @@ docker-compose up -d
 ### Problem: "Docker daemon not running"
 
 **Symptoms:**
+
 ```
 Cannot connect to the Docker daemon
 ```
@@ -930,26 +984,29 @@ Cannot connect to the Docker daemon
 **Solutions:**
 
 **Linux:**
+
 ```bash
 sudo systemctl start docker
 ```
 
 **macOS/Windows:**
+
 - Start Docker Desktop application
 
 ---
 
 ### Problem: "Volume data persists after `docker-compose down`"
 
-**Explanation:**
-This is **expected behavior**. Volumes persist by design.
+**Explanation:** This is **expected behavior**. Volumes persist by design.
 
 **To delete data:**
+
 ```bash
 docker-compose down -v  # -v flag removes volumes
 ```
 
 **To backup before deletion:**
+
 ```bash
 docker run --rm -v redis-demo_redis_data:/data -v $(pwd):/backup alpine \
   tar czf /backup/redis-backup-$(date +%Y%m%d).tar.gz -C /data .
@@ -960,6 +1017,7 @@ docker run --rm -v redis-demo_redis_data:/data -v $(pwd):/backup alpine \
 ### Problem: "Health check failing"
 
 **Symptoms:**
+
 ```
 node_app | Health check failed
 ```
@@ -967,25 +1025,17 @@ node_app | Health check failed
 **Debug Steps:**
 
 1. **Check health endpoint manually:**
-   ```bash
-   docker exec node_app curl -f http://localhost:3000/health
-   ```
 
-2. **Check if curl is installed:**
-   ```bash
-   docker exec node_app which curl
-   ```
+1. **Check if curl is installed:**
 
-3. **View detailed health logs:**
-   ```bash
-   docker inspect --format='{{json .State.Health}}' node_app | jq
-   ```
+1. **View detailed health logs:**
 
 ---
 
 ### Problem: "Permission denied on check-env.sh"
 
 **Solution:**
+
 ```bash
 chmod +x check-env.sh
 ```
@@ -997,44 +1047,21 @@ chmod +x check-env.sh
 ### Production Checklist
 
 - [ ] **Use production-grade image tags**
-  ```yaml
-  redis:
-    image: redis:7.2.3-alpine  # Specific version, not "latest"
-  ```
 
 - [ ] **Configure resource limits**
-  ```yaml
-  api:
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 512M
-  ```
 
 - [ ] **Set up log rotation**
-  ```yaml
-  logging:
-    driver: "json-file"
-    options:
-      max-size: "10m"
-      max-file: "3"
-  ```
 
 - [ ] **Use Docker Secrets for sensitive data**
-  ```yaml
-  secrets:
-    redis_password:
-      file: ./secrets/redis_password.txt
-  ```
 
 - [ ] **Implement monitoring** (Prometheus, Grafana)
 
 - [ ] **Set up automated backups**
   ```bash
-  # Cron job example
-  0 2 * * * docker run
-
+  # Cron job example: Daily backup of Redis volume at 02:00 AM
+  # This command runs a temporary container to archive the volume data.
+  0 2 * * * docker run --rm -v redis-demo_redis_data:/data -v /path/to/backup/dir:/backup alpine tar czf /backup/redis-backup-$(date +\%Y\%m\%d).tar.gz -C /data .
+  ```
 
 ---
 
@@ -1042,8 +1069,10 @@ chmod +x check-env.sh
 
 **Artem Rivnyi** — Junior Technical Support / DevOps Enthusiast
 
-* 📧 [artemrivnyi@outlook.com](mailto:artemrivnyi@outlook.com)  
-* 🔗 [LinkedIn](https://www.linkedin.com/in/artem-rivnyi/)  
-* 🌐 [Personal Projects](https://personal-page-devops.onrender.com/)  
-* 💻 [GitHub](https://github.com/ArtemRivnyi)
+- 📧 [artemrivnyi@outlook.com](mailto:artemrivnyi@outlook.com)
 
+- 🔗 [LinkedIn](https://www.linkedin.com/in/artem-rivnyi/)
+
+- 🌐 [Personal Projects](https://personal-page-devops.onrender.com/)
+
+- 💻 [GitHub](https://github.com/ArtemRivnyi)
