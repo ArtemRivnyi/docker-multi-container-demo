@@ -42,10 +42,6 @@ A professional multi-container Docker Compose setup demonstrating container orch
 
 - [🚀 Deployment Considerations](#-deployment-considerations)
 
-- [🤝 Contributing](#-contributing)
-
-- [📄 License](#-license)
-
 - [🧰 Maintainer](#-maintainer)
 
 ---
