@@ -6,33 +6,32 @@ A professional multi-container Docker Compose setup demonstrating container orch
 
 ## 📖 Table of Contents
 
-- [✨ Overview](#-overview)
-- [🎯 What You'll Learn](#-what-youll-learn)
-- [🚀 Quick Start](#-quick-start)
-- [📁 Project Structure](#-project-structure)
-- [🏗️ Architecture & Data Flow](#%EF%B8%8F-architecture--data-flow)
+* [✨ Overview](#-overview)
+* [🎯 What You'll Learn](#-what-youll-learn)
+* [🚀 Quick Start](#-quick-start)
+* [🏗️ Architecture & Data Flow](#%EF%B8%8F-architecture--data-flow)
 
-- [🔧 How It Works](#-how-it-works)
-  - [Docker Compose Orchestration](#docker-compose-orchestration)
-  - [Service Dependencies & Health Checks](#service-dependencies--health-checks)
-  - [Networking & Communication](#networking--communication)
-  - [Data Persistence](#data-persistence)
+* [🔧 How It Works](#-how-it-works)
+  * [Docker Compose Orchestration](#docker-compose-orchestration)
+  * [Service Dependencies & Health Checks](#service-dependencies--health-checks)
+  * [Networking & Communication](#networking--communication)
+  * [Data Persistence](#data-persistence)
 
-- [📌 API Endpoints](#-api-endpoints)
-- [🛠️ Installation & Usage](#%EF%B8%8F-installation--usage)
-  - [Prerequisites](#prerequisites)
-  - [Initial Setup](#initial-setup)
-  - [Running the Application](#running-the-application)
-  - [Using Makefile Commands](#using-makefile-commands)
+* [📌 API Endpoints](#-api-endpoints)
+* [🛠️ Installation & Usage](#%EF%B8%8F-installation--usage)
+  * [Prerequisites](#prerequisites)
+  * [Initial Setup](#initial-setup)
+  * [Running the Application](#running-the-application)
+  * [Using Makefile Commands](#using-makefile-commands)
 
-- [🧪 Testing](#-testing)
-- [🌐 Cross-Platform Compatibility](#-cross-platform-compatibility)
-- [📊 Monitoring & Logs](#-monitoring--logs)
-- [🔐 Security Best Practices](#-security-best-practices)
-- [🚨 Troubleshooting](#-troubleshooting)
-- [🚀 Deployment Considerations](#-deployment-considerations)
-- [📄 License](#-license)
-- [🧰 Maintainer](#-maintainer)
+* [🧪 Testing](#-testing)
+* [🌐 Cross-Platform Compatibility](#-cross-platform-compatibility)
+* [📊 Monitoring & Logs](#-monitoring--logs)
+* [🔐 Security Best Practices](#-security-best-practices)
+* [🚨 Troubleshooting](#-troubleshooting)
+* [🚀 Deployment Considerations](#-deployment-considerations)
+* [📄 License](#-license)
+* [🧰 Maintainer](#-maintainer)
 
 ---
 
@@ -98,26 +97,6 @@ curl http://localhost:3000/get/greeting
 ```
 
 ---
-
-## 📁 Project Structure
-
-```
-docker-multi-container-demo/
-├── 🐋 docker-compose.yml          # Multi-container orchestration configuration
-├── 📄 README.md                   # This comprehensive documentation
-├── ⚙️  .env.example                # Template for environment variables
-├── 🔒 .env                        # Your local environment config (create from .env.example)
-├── 🚫 .dockerignore               # Files excluded from Docker build context
-├── 📋 .gitignore                  # Files excluded from version control
-├── 🔧 Makefile                    # Convenient commands (make up, make test, etc.)
-├── 🖥️  check-env.sh               # Environment verification script
-└── 📂 api/                        # Node.js application directory
-    ├── 🐳 Dockerfile              # Node.js container image definition
-    ├── 📦 package.json            # Node.js dependencies and scripts
-    ├── 📝 package-lock.json       # Locked dependency versions
-    ├── 🚀 server.js               # Express API server implementation
-    └── 📡 redis-client.js         # Redis connection and operations handler
-```
 
 ### File Descriptions
 
