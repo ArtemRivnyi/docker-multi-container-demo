@@ -7,13 +7,9 @@ A professional multi-container Docker Compose setup demonstrating container orch
 ## 📖 Table of Contents
 
 - [✨ Overview](#-overview)
-
 - [🎯 What You'll Learn](#-what-youll-learn)
-
 - [🚀 Quick Start](#-quick-start)
-
 - [📁 Project Structure](#-project-structure)
-
 - [🏗️ Architecture & Data Flow](#%EF%B8%8F-architecture--data-flow)
 
 - [🔧 How It Works](#-how-it-works)
@@ -23,7 +19,6 @@ A professional multi-container Docker Compose setup demonstrating container orch
   - [Data Persistence](#data-persistence)
 
 - [📌 API Endpoints](#-api-endpoints)
-
 - [🛠️ Installation & Usage](#%EF%B8%8F-installation--usage)
   - [Prerequisites](#prerequisites)
   - [Initial Setup](#initial-setup)
@@ -31,17 +26,12 @@ A professional multi-container Docker Compose setup demonstrating container orch
   - [Using Makefile Commands](#using-makefile-commands)
 
 - [🧪 Testing](#-testing)
-
 - [🌐 Cross-Platform Compatibility](#-cross-platform-compatibility)
-
 - [📊 Monitoring & Logs](#-monitoring--logs)
-
 - [🔐 Security Best Practices](#-security-best-practices)
-
 - [🚨 Troubleshooting](#-troubleshooting)
-
 - [🚀 Deployment Considerations](#-deployment-considerations)
-
+- [📄 License](#-license)
 - [🧰 Maintainer](#-maintainer)
 
 ---
@@ -149,24 +139,24 @@ docker-multi-container-demo/
 ### High-Level Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────┐
+┌──────────────────────────────────────────────────────────────┐
 │                      Docker Host                             │
-│  ┌────────────────────────────────────────────────────────┐ │
-│  │            Docker Compose (app-network)                │ │
-│  │                                                         │ │
-│  │  ┌─────────────────┐         ┌──────────────────┐    │ │
-│  │  │   Node.js API   │◄────────┤  Redis Cache     │    │ │
-│  │  │   (Express)     │  Redis  │  (In-Memory DB)  │    │ │
-│  │  │   Port: 3000    │ Client  │                  │    │ │
-│  │  └────────┬────────┘         └────────┬─────────┘    │ │
-│  │           │                           │              │ │
-│  │           │                           │              │ │
-│  │    Health Check                Volume Mount         │ │
-│  │    (HTTP /health)            (redis_data:/data)     │ │
-│  └────────────────────────────────────────────────────────┘ │
+│  ┌────────────────────────────────────────────────────────┐  │
+│  │            Docker Compose (app-network)                │  │
+│  │                                                        │  │
+│  │  ┌─────────────────┐         ┌──────────────────┐      │  │
+│  │  │   Node.js API   │◄────────┤  Redis Cache     │      │  │
+│  │  │   (Express)     │  Redis  │  (In-Memory DB)  │      │  │
+│  │  │   Port: 3000    │ Client  │                  │      │  │
+│  │  └────────┬────────┘         └────────┬─────────┘      │  │
+│  │           │                           │                │  │
+│  │           │                           │                │  │
+│  │    Health Check                Volume Mount            │  │
+│  │    (HTTP /health)            (redis_data:/data)        │  │
+│  └────────────────────────────────────────────────────────┘  │
 │           │                                                  │
-│      Port Mapping                                           │
-│      3000:3000                                              │
+│      Port Mapping                                            │
+│      3000:3000                                               │
 └───────────┼──────────────────────────────────────────────────┘
             │
             ▼
@@ -1058,6 +1048,12 @@ chmod +x check-env.sh
   # This command runs a temporary container to archive the volume data.
   0 2 * * * docker run --rm -v redis-demo_redis_data:/data -v /path/to/backup/dir:/backup alpine tar czf /backup/redis-backup-$(date +\%Y\%m\%d).tar.gz -C /data .
   ```
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
