@@ -1,7 +1,7 @@
 # 🐋 Docker Multi-Container Demo: Node.js + Redis
 
 [![CI Build and Test](https://github.com/ArtemRivnyi/docker-multi-container-demo/actions/workflows/ci.yml/badge.svg)](https://github.com/ArtemRivnyi/docker-multi-container-demo/actions/workflows/ci.yml)
-[![Docker Hub](https://img.shields.io/badge/Docker%20Hub-Not%20Available-lightgrey?logo=docker)](https://hub.docker.com/r/artemrivnyi/docker-multi-container-demo)
+[![Docker Hub Pulls](https://img.shields.io/docker/pulls/artemrivnyi/docker-multi-container-demo?logo=docker&label=Docker%20Hub)](https://hub.docker.com/r/artemrivnyi/docker-multi-container-demo)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A professional multi-container Docker Compose setup demonstrating container orchestration, inter-service communication, and Redis caching in a cross-platform environment.
