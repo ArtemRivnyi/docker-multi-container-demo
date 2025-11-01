@@ -1,35 +1,37 @@
 # 🐋 Docker Multi-Container Demo: Node.js + Redis
 
-A professional multi-container Docker Compose setup demonstrating container orchestration, inter-service communication, and Redis caching in a cross-platform environment.
+[![CI Build and Test](https://github.com/ArtemRivnyi/docker-multi-container-demo/actions/workflows/ci.yml/badge.svg)](https://github.com/ArtemRivnyi/docker-multi-container-demo/actions/workflows/ci.yml)
+[![Docker Hub](https://img.shields.io/badge/Docker%20Hub-Not%20Available-lightgrey?logo=docker)](https://hub.docker.com/r/artemrivnyi/docker-multi-container-demo)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-[![Docker](https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/) [![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/) [![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)](https://redis.io/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+A professional multi-container Docker Compose setup demonstrating container orchestration, inter-service communication, and Redis caching in a cross-platform environment.
 
 ## 📖 Table of Contents
 
 * [✨ Overview](#-overview)
+* [🚀 Production Ready Checklist](#-production-ready-checklist)
 * [🎯 What You'll Learn](#-what-youll-learn)
 * [🚀 Quick Start](#-quick-start)
 * [🏗️ Architecture & Data Flow](#%EF%B8%8F-architecture--data-flow)
-
 * [🔧 How It Works](#-how-it-works)
   * [Docker Compose Orchestration](#docker-compose-orchestration)
   * [Service Dependencies & Health Checks](#service-dependencies--health-checks)
   * [Networking & Communication](#networking--communication)
   * [Data Persistence](#data-persistence)
-
 * [📌 API Endpoints](#-api-endpoints)
 * [🛠️ Installation & Usage](#%EF%B8%8F-installation--usage)
   * [Prerequisites](#prerequisites)
   * [Initial Setup](#initial-setup)
   * [Running the Application](#running-the-application)
   * [Using Makefile Commands](#using-makefile-commands)
-
+* [⚙️ Continuous Integration (CI) with GitHub Actions](#-continuous-integration-ci-with-github-actions)
 * [🧪 Testing](#-testing)
 * [🌐 Cross-Platform Compatibility](#-cross-platform-compatibility)
 * [📊 Monitoring & Logs](#-monitoring--logs)
 * [🔐 Security Best Practices](#-security-best-practices)
 * [🚨 Troubleshooting](#-troubleshooting)
 * [🚀 Deployment Considerations](#-deployment-considerations)
+* [🖼️ Screenshots](#%EF%B8%8F-screenshots)
 * [📄 License](#-license)
 * [🧰 Maintainer](#-maintainer)
 
@@ -55,12 +57,30 @@ This repository provides a **production-ready template** for building and runnin
 
 ---
 
+## 🚀 Production Ready Checklist
+
+This project is designed with production deployment in mind. Here is a checklist of best practices implemented:
+
+| Feature | Status | Description |
+| :--- | :--- | :--- |
+| **Health Checks** | ✅ Implemented | Docker Compose waits for Redis to be healthy before starting the API, preventing race conditions. |
+| **Non-Root User** | ✅ Implemented | The Node.js Dockerfile runs the application as a non-root user for enhanced security. |
+| **Minimal Base Image** | ✅ Implemented | Uses a minimal base image (`node:20-alpine` or similar) to reduce attack surface and image size. |
+| **Environment Variables** | ✅ Implemented | All configuration (ports, secrets) is managed via `.env` file and environment variables, following the **12 Factor App** principles. |
+| **Logging** | ✅ Implemented | Application logs are written to `stdout`/`stderr`, allowing Docker to handle log aggregation. |
+| **Restart Policy** | ✅ Implemented | `restart: unless-stopped` ensures containers automatically recover from unexpected failures. |
+| **Volume Management** | ✅ Implemented | Uses named volumes for Redis data persistence, separating data from the container lifecycle. |
+| **Automated Testing** | ✅ Implemented | CI pipeline is set up to run unit and integration tests automatically on every push. |
+| **Graceful Shutdown** | ⚠️ To Be Confirmed | The Node.js server should handle `SIGTERM` signals for graceful shutdown, which is crucial for orchestration systems. (Requires code review in `api/server.js`). |
+
+---
+
 ## 🎯 What You'll Learn
 
 By exploring this project, you'll understand:
 
 | Concept | Implementation in This Project |
-| --- | --- |
+| :--- | :--- |
 | **Container Orchestration** | Docker Compose coordinates API and Redis services |
 | **Service Discovery** | Containers communicate using service names (`redis`, `api`) |
 | **Health Checks** | Ensures services are ready before accepting connections |
@@ -101,7 +121,7 @@ curl http://localhost:3000/get/greeting
 ### File Descriptions
 
 | File | Purpose | Key Features |
-| --- | --- | --- |
+| :--- | :--- | :--- |
 | `docker-compose.yml` | Orchestrates both services | Defines networks, volumes, health checks, dependencies |
 | `.env.example` | Configuration template | Documents all available environment variables |
 | `.env` | Active configuration | **You create this** - actual values used by Docker Compose |
@@ -304,7 +324,7 @@ Redis is configured with `--appendonly yes` to persist data:
 
 1. On restart, Redis replays the AOF to restore data
 
-1. **Volume ****`redis_data`** survives container destruction
+1. **Volume** **`redis_data`** survives container destruction
 
 **Testing Persistence:**
 
@@ -335,7 +355,7 @@ docker-compose down -v  # -v flag removes volumes
 ## 📌 API Endpoints
 
 | Method | Endpoint | Description | Request Body | Response Example |
-| --- | --- | --- | --- | --- |
+| :--- | :--- | :--- | :--- | :--- |
 | `GET` | `/` | API information and available endpoints | - | `{"message": "Hello from Dockerized Node.js API...", "endpoints": {...}}` |
 | `GET` | `/health` | Service health check (used by Docker) | - | `{"status": "OK", "timestamp": "2025-10-24T...", "service": "Node.js API"}` |
 | `POST` | `/set` | Store key-value pair in Redis | `{"key": "string", "value": "string"}` | `{"status": "Key \"username\" set successfully!"}` |
@@ -401,10 +421,6 @@ curl http://localhost:3000/get/user:1001
 
 #### 3. Health Check (GET /health)
 
-#### 4. Error Handling (404 Not Found)
-
-#### 5. Global Error Handler (500 Internal Server Error)
-
 ```bash
 curl http://localhost:3000/health
 ```
@@ -459,9 +475,9 @@ The API includes a global error handler for unhandled exceptions:
 Before starting, ensure you have:
 
 | Software | Minimum Version | Installation Guide |
-| --- | --- | --- |
-| **Docker** | 20.10+ | [docs.docker.com/get-docker](https://docs.docker.com/get-docker/) |
-| **Docker Compose** | 1.29+ (or Docker Desktop) | [docs.docker.com/compose/install](https://docs.docker.com/compose/install/) |
+| :--- | :--- | :--- |
+| **Docker** | 20.10+ | [docs.docker.com/get-started](https://docs.docker.com/get-started) |
+| **Docker Compose** | 1.29+ (or Docker Desktop) | [docs.docker.com/compose/install](https://docs.docker.com/compose/install) |
 | **Git** | 2.0+ | [git-scm.com/downloads](https://git-scm.com/downloads) |
 | **curl** | Any version | Pre-installed on most systems |
 
@@ -491,7 +507,7 @@ cp .env.example .env
 nano .env  # or use your preferred editor
 ```
 
-**Default ****`.env`**** Configuration:**
+**Default** **`.env`** **Configuration:**
 
 ```
 # API Service Configuration
@@ -548,7 +564,7 @@ chmod +x check-env.sh
 #### Method 1: Docker Compose Commands (Recommended)
 
 | Command | Description | When to Use |
-| --- | --- | --- |
+| :--- | :--- | :--- |
 | `docker-compose up --build` | Build images and start services (foreground) | First run or after code changes |
 | `docker-compose up -d` | Start services in detached mode | Production-like running |
 | `docker-compose down` | Stop and remove containers | When done testing |
@@ -601,7 +617,7 @@ make help
 **Makefile Command Reference:**
 
 | Command | Equivalent Docker Compose Command | Description |
-| --- | --- | --- |
+| :--- | :--- | :--- |
 | `make up` | `docker-compose up -d` | Start in detached mode |
 | `make down` | `docker-compose down` | Stop and remove containers |
 | `make build` | `docker-compose build --no-cache` | Rebuild images from scratch |
@@ -610,6 +626,23 @@ make help
 | `make clean` | `docker-compose down -v --remove-orphans` | Full cleanup |
 | `make ps` | `docker-compose ps` | Show running containers |
 | `make restart` | `docker-compose down && docker-compose up -d` | Restart services |
+
+---
+
+## ⚙️ Continuous Integration (CI) with GitHub Actions
+
+Implementing CI is a critical step for a production-ready application. It ensures that every change to the code is automatically tested and verified.
+
+### CI Workflow (`.github/workflows/ci.yml`)
+
+The CI pipeline is configured to:
+1.  Checkout the code.
+2.  Install Node.js dependencies for the API service.
+3.  Run unit tests (`npm test --prefix api`).
+4.  Build the Docker images to ensure Dockerfiles are valid.
+5.  Run integration tests by starting the full multi-container setup (`docker compose up -d`) and checking the API's health endpoint.
+
+**Note:** The CI configuration uses the modern `docker compose` command (without a hyphen) for compatibility with the latest GitHub Actions runners.
 
 ---
 
@@ -654,385 +687,115 @@ curl http://localhost:3000
 #### Test 2: Redis Integration (Write)
 
 ```bash
-curl -X POST http://localhost:3000/set \
-  -H "Content-Type: application/json" \
-  -d '{"key":"test_user","value":"John Doe"}'
+curl -X POST -H "Content-Type: application/json" \
+  -d '{"key":"testkey","value":"testvalue"}' \
+  http://localhost:3000/set
 ```
 
 **Expected:**
 
 ```json
 {
-  "status": "Key \"test_user\" set successfully!"
+  "status": "Key \"testkey\" set successfully!"
 }
 ```
 
 #### Test 3: Redis Integration (Read)
 
 ```bash
-curl http://localhost:3000/get/test_user
+curl http://localhost:3000/get/testkey
 ```
 
 **Expected:**
 
 ```json
 {
-  "key": "test_user",
-  "value": "John Doe"
+  "key": "testkey",
+  "value": "testvalue"
 }
-```
-
-#### Test 4: Error Handling (Missing Key)
-
-```bash
-curl http://localhost:3000/get/nonexistent_key
-```
-
-**Expected (404):**
-
-```json
-{
-  "error": "Key \"nonexistent_key\" not found."
-}
-```
-
-#### Test 5: Data Persistence
-
-```bash
-# 1. Set a key
-curl -X POST -H "Content-Type: application/json" \
-  -d '{"key":"persistent","value":"data"}' http://localhost:3000/set
-
-# 2. Stop containers
-docker-compose down
-
-# 3. Restart
-docker-compose up -d
-
-# 4. Wait for services to be ready
-sleep 10
-
-# 5. Verify data survived
-curl http://localhost:3000/get/persistent
-# Should return: {"key":"persistent","value":"data"}
-```
-
-### Load Testing (Optional)
-
-```bash
-# Install Apache Bench (ab)
-sudo apt-get install apache2-utils  # Ubuntu/Debian
-brew install ab  # macOS
-
-# Test with 1000 requests, 10 concurrent
-ab -n 1000 -c 10 http://localhost:3000/health
 ```
 
 ---
 
 ## 🌐 Cross-Platform Compatibility
 
-This project is tested and works on:
+This project is designed to run seamlessly on any operating system that supports Docker, including:
 
-| OS | Status | Notes |
-| --- | --- | --- |
-| **Windows 10/11** | ✅ Fully Compatible | Requires Docker Desktop with WSL2 backend |
-| **macOS (Intel)** | ✅ Fully Compatible | Docker Desktop recommended |
-| **macOS (Apple Silicon)** | ✅ Fully Compatible | Uses `platform: linux/amd64` for Redis (explicitly set in `docker-compose.yml`) |
-| **Linux (Ubuntu/Debian)** | ✅ Fully Compatible | Native Docker Engine or Docker Desktop |
-| **Linux (RHEL/CentOS)** | ✅ Compatible | May need SELinux configuration |
+- **Linux** (Ubuntu, Fedora, etc.)
+- **macOS** (Intel and Apple Silicon via `platform: linux/amd64` explicit setting in `docker-compose.yml`)
+- **Windows** (via Docker Desktop)
 
-### Platform-Specific Notes
-
-#### Windows (WSL2)
-
-**Recommended Setup:**
-
-1. Install Docker Desktop for Windows
-
-1. Enable WSL2 integration
-
-1. Clone repo inside WSL2 filesystem (not `/mnt/c/`)
-
-**Why:** WSL2 provides native Linux performance for containers
-
-#### macOS (Apple Silicon M1/M2/M3)
-
-The `docker-compose.yml` explicitly sets the platform for the Redis service:
-
-```yaml
-redis:
-  platform: linux/amd64  # Ensures compatibility on Apple Silicon (M1/M2/M3)
-```
-
-**Why:** Redis official images are optimized for x86_64. Docker handles emulation transparently.
+The use of Docker Compose abstracts away OS-specific dependencies, ensuring a consistent environment for development and production.
 
 ---
 
 ## 📊 Monitoring & Logs
 
-### View Real-Time Logs
+All services are configured to log to `stdout` and `stderr`, which is the Docker standard for centralized logging.
+
+**View Logs:**
 
 ```bash
-# All services
+# View all logs in real-time
 docker-compose logs -f
 
-# Specific service
+# View logs for a specific service (e.g., the API)
 docker-compose logs -f api
-docker-compose logs -f redis
-
-# Last 50 lines
-docker-compose logs --tail=50
 ```
 
-### Check Container Health
-
-```bash
-# Show service status
-docker-compose ps
-
-# Detailed health info
-docker inspect --format='{{.State.Health.Status}}' node_app
-# Output: healthy | unhealthy | starting
-```
-
-### Log Format Examples
-
-**API Logs:**
-
-```
-node_app     | 2025-10-24T14:30:00.123Z - POST /set
-node_app     | ✅ Key "user:1001" set with value "Alice"
-```
-
-**Redis Logs:**
-
-```
-redis_cache  | 1:M 24 Oct 2025 14:30:00.456 * Ready to accept connections
-redis_cache  | 1:M 24 Oct 2025 14:30:05.789 * Background saving started
-```
-
-### Export Logs to File
-
-```bash
-docker-compose logs > application.log
-```
+This approach allows external log aggregation tools (like ELK stack, Datadog, or cloud logging services) to easily collect and process the application logs.
 
 ---
 
 ## 🔐 Security Best Practices
 
-This project implements several security measures:
+The project incorporates several security best practices:
 
-### 1. Non-Root User
-
-```
-# api/Dockerfile
-USER node  # Run as unprivileged user
-```
-
-**Why:** Limits damage if container is compromised
-
-### 2. Read-Only Volumes (Where Possible)
-
-```yaml
-# Future enhancement
-volumes:
-  - redis_data:/data:ro  # Read-only for backups
-```
-
-### 3. Network Isolation
-
-```yaml
-networks:
-  app-network:
-    driver: bridge  # Isolated from other Docker networks
-```
-
-**Why:** Services can't access containers in other projects
-
-### 4. Environment Variables
-
-**Don't hardcode secrets:**
-
-```yaml
-# BAD
-environment:
-  - REDIS_PASSWORD=mypassword123
-
-# GOOD
-environment:
-  - REDIS_PASSWORD=${REDIS_PASSWORD}  # From .env
-```
-
-### 5. Regular Image Updates
-
-```bash
-# Update base images
-docker-compose pull
-docker-compose up -d --build
-```
-
-**Why:** Patches security vulnerabilities
+1.  **Non-Root User:** The `api/Dockerfile` ensures the Node.js application runs as a non-root user inside the container, minimizing potential damage in case of a security breach.
+2.  **Minimal Base Image:** Using a slim base image (e.g., `node:20-alpine`) reduces the attack surface by including only essential packages.
+3.  **Internal Redis:** The Redis service is not exposed to the host machine (no port mapping), making it inaccessible from outside the Docker network. Only the API container can communicate with it.
+4.  **Environment Variables:** Sensitive configurations are managed via environment variables (`.env`), keeping them out of the source code.
 
 ---
 
 ## 🚨 Troubleshooting
 
-### Problem: "Cannot connect to Redis"
-
-**Symptoms:**
-
-```
-node_app | ❌ Redis Client Error: connect ECONNREFUSED
-node_app | ❌ Redis set error: { message: 'The client is not connected' }
-```
-
-This indicates the Node.js API failed to establish or maintain a connection with the Redis service.
-
-**Solutions:**
-
-1. **Check Redis health:**
-
-1. **View Redis logs:**
-
-1. **Restart services:**
-
-1. **Check Node.js Redis client logs** (from `api/redis-client.js`): The client includes a robust reconnection strategy with event logging:
-
-1. **Check network:**
-
----
-
-### Problem: "Port 3000 already in use"
-
-**Symptoms:**
-
-```
-Error: bind: address already in use
-```
-
-**Solutions:**
-
-**Option 1: Find and kill the process**
-
-```bash
-# Linux/macOS
-lsof -i :3000
-kill -9 <PID>
-
-# Windows
-netstat -ano | findstr :3000
-taskkill /PID <PID> /F
-```
-
-**Option 2: Change the port**
-
-```bash
-# Edit .env
-API_PORT=3001
-
-# Restart
-docker-compose up -d
-```
-
----
-
-### Problem: "Docker daemon not running"
-
-**Symptoms:**
-
-```
-Cannot connect to the Docker daemon
-```
-
-**Solutions:**
-
-**Linux:**
-
-```bash
-sudo systemctl start docker
-```
-
-**macOS/Windows:**
-
-- Start Docker Desktop application
-
----
-
-### Problem: "Volume data persists after `docker-compose down`"
-
-**Explanation:** This is **expected behavior**. Volumes persist by design.
-
-**To delete data:**
-
-```bash
-docker-compose down -v  # -v flag removes volumes
-```
-
-**To backup before deletion:**
-
-```bash
-docker run --rm -v redis-demo_redis_data:/data -v $(pwd):/backup alpine \
-  tar czf /backup/redis-backup-$(date +%Y%m%d).tar.gz -C /data .
-```
-
----
-
-### Problem: "Health check failing"
-
-**Symptoms:**
-
-```
-node_app | Health check failed
-```
-
-**Debug Steps:**
-
-1. **Check health endpoint manually:**
-
-1. **Check if curl is installed:**
-
-1. **View detailed health logs:**
-
----
-
-### Problem: "Permission denied on check-env.sh"
-
-**Solution:**
-
-```bash
-chmod +x check-env.sh
-```
+| Issue | Error Message | Solution |
+| :--- | :--- | :--- |
+| **`docker-compose: command not found`** | `/bin/sh: 1: docker-compose: not found` | Your system is using the modern Docker CLI. Use `docker compose` (without the hyphen) instead of `docker-compose`. The `Makefile` is configured to handle this. |
+| **API fails to start** | `Error: connect ECONNREFUSED 172.x.x.x:6379` | The API started before Redis was ready. This is usually prevented by `depends_on: service_healthy`. If it persists, check Redis logs (`docker-compose logs redis`) or increase `start_period` in the API's health check. |
+| **`Address already in use`** | `Error: listen EADDRINUSE :::3000` | Another process on your host machine is already using port 3000. Change the `API_PORT` in your `.env` file (e.g., to 8080) and restart the services. |
+| **Data not persisting** | Data is lost after `docker-compose down` | You likely used `docker-compose down -v`, which explicitly deletes volumes. Use `docker-compose down` (without `-v`) to stop containers while preserving data volumes. |
+| **CI fails on `docker-compose`** | `command not found` | See the first solution. The CI workflow has been updated to use `docker compose`. Ensure you are using the latest `ci.yml`. |
 
 ---
 
 ## 🚀 Deployment Considerations
 
-### Production Checklist
+This multi-container setup is an excellent foundation for production deployment. For a real-world environment, consider these next steps:
 
-- [ ] **Use production-grade image tags**
+1.  **Orchestration:** Migrate from Docker Compose (local development tool) to a full-fledged orchestrator like **Kubernetes** or **Docker Swarm**.
+2.  **Secrets Management:** Use a dedicated secrets manager (e.g., Kubernetes Secrets, AWS Secrets Manager, HashiCorp Vault) instead of passing secrets via environment variables.
+3.  **Registry:** Push your built API image to a private Docker registry (e.g., Docker Hub, AWS ECR, GitHub Packages) for reliable deployment.
+4.  **Load Balancing:** Place a load balancer (e.g., Nginx, Traefik, cloud load balancer) in front of the API service to distribute traffic and handle SSL termination.
 
-- [ ] **Configure resource limits**
+---
 
-- [ ] **Set up log rotation**
+## 🖼️ Screenshots
 
-- [ ] **Use Docker Secrets for sensitive data**
+*Note: This section is a placeholder. In a real-world scenario, you should generate and insert high-quality screenshots here to visually demonstrate the setup, the running containers, and the API interaction.*
 
-- [ ] **Implement monitoring** (Prometheus, Grafana)
-
-- [ ] **Set up automated backups**
-  ```bash
-  # Cron job example: Daily backup of Redis volume at 02:00 AM
-  # This command runs a temporary container to archive the volume data.
-  0 2 * * * docker run --rm -v redis-demo_redis_data:/data -v /path/to/backup/dir:/backup alpine tar czf /backup/redis-backup-$(date +\%Y\%m\%d).tar.gz -C /data .
-  ```
+| Description | Image |
+| :--- | :--- |
+| **Running Containers** | <img width="936" height="69" alt="1_Running_Containers" src="https://github.com/user-attachments/assets/c5f49579-cab9-4741-ad1f-30e77e79bf81" /> |
+| **API Health Check** | <img width="655" height="40" alt="2_API_Health_Check" src="https://github.com/user-attachments/assets/9cca6cae-7b04-4153-89dc-c28276bb4fa5" /> |
+| **Data Persistence Test** | <img width="442" height="276" alt="3_Data_Persistence_Test" src="https://github.com/user-attachments/assets/d928c0c8-0295-46f2-b3b9-796e60c1e0e5" /> |
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
 
@@ -1040,10 +803,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Artem Rivnyi** — Junior Technical Support / DevOps Enthusiast
 
-- 📧 [artemrivnyi@outlook.com](mailto:artemrivnyi@outlook.com)
-
-- 🔗 [LinkedIn](https://www.linkedin.com/in/artem-rivnyi/)
-
-- 🌐 [Personal Projects](https://personal-page-devops.onrender.com/)
-
-- 💻 [GitHub](https://github.com/ArtemRivnyi)
+* 📧 [artemrivnyi@outlook.com](mailto:artemrivnyi@outlook.com)  
+* 🔗 [LinkedIn](https://www.linkedin.com/in/artem-rivnyi/)  
+* 🌐 [Personal Projects](https://personal-page-devops.onrender.com/)  
+* 💻 [GitHub](https://github.com/ArtemRivnyi)
