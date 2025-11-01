@@ -29,21 +29,21 @@ jobs:
       
     - name: Build Docker Images
       # Build the images to ensure Dockerfiles are valid
-      run: docker-compose build
+      run: docker compose build
 
     - name: Run Integration Tests (using Docker Compose)
       # This step uses the full docker-compose setup for an end-to-end check
       run: |
         # Start the services in detached mode
-        docker-compose up -d
+        docker compose up -d
         
         # Wait for the API service to report 'healthy'
         # This is a robust way to wait for dependencies (Redis) and the API to be ready
-        timeout 60s bash -c 'while [[ "$(docker inspect -f "{{.State.Health.Status}}" $(docker-compose ps -q api))" != "healthy" ]]; do sleep 2; done'
+        timeout 60s bash -c 'while [[ "$(docker inspect -f "{{.State.Health.Status}}" $(docker compose ps -q api))" != "healthy" ]]; do sleep 2; done'
         
         # Run a simple check against the running API's health endpoint
         echo "Running final health check..."
         curl --fail http://localhost:3000/health
         
         # Stop and clean up
-        docker-compose down
+        docker compose down
