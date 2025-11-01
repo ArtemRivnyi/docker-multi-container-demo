@@ -1,0 +1,49 @@
+name: CI Build and Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js (for installing dependencies)
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20' # Match the version used in your Dockerfile
+
+    - name: Install API dependencies
+      # This is necessary to run the 'test' script defined in package.json
+      run: npm install --prefix api
+        
+    - name: Run Unit Tests
+      # This step executes the 'test' script from api/package.json
+      run: npm test --prefix api
+      
+    - name: Build Docker Images
+      # Build the images to ensure Dockerfiles are valid
+      run: docker-compose build
+
+    - name: Run Integration Tests (using Docker Compose)
+      # This step uses the full docker-compose setup for an end-to-end check
+      run: |
+        # Start the services in detached mode
+        docker-compose up -d
+        
+        # Wait for the API service to report 'healthy'
+        # This is a robust way to wait for dependencies (Redis) and the API to be ready
+        timeout 60s bash -c 'while [[ "$(docker inspect -f "{{.State.Health.Status}}" $(docker-compose ps -q api))" != "healthy" ]]; do sleep 2; done'
+        
+        # Run a simple check against the running API's health endpoint
+        echo "Running final health check..."
+        curl --fail http://localhost:3000/health
+        
+        # Stop and clean up
+        docker-compose down
