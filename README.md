@@ -787,9 +787,9 @@ This multi-container setup is an excellent foundation for production deployment.
 
 | Description | Image |
 | :--- | :--- |
-| **Running Containers** | <img width="936" height="69" alt="1_Running_Containers" src="https://github.com/user-attachments/assets/c5f49579-cab9-4741-ad1f-30e77e79bf81" /> |
-| **API Health Check** | <img width="655" height="40" alt="2_API_Health_Check" src="https://github.com/user-attachments/assets/9cca6cae-7b04-4153-89dc-c28276bb4fa5" /> |
-| **Data Persistence Test** | <img width="442" height="276" alt="3_Data_Persistence_Test" src="https://github.com/user-attachments/assets/d928c0c8-0295-46f2-b3b9-796e60c1e0e5" /> |
+| **Running Containers** | ![1_Running_Containers](./assets/1_Running_Containers.png) |
+| **API Health Check** |	![2_API_Health_Check](./assets/2_API_Health_Check.png) |
+| **Data Persistence Test** | ![3_Data_Persistence_Test](./assets/3_Data_Persistence_Test.png) |
 
 ---
 
