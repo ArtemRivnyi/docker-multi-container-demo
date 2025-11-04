@@ -1,8 +1,13 @@
 # 🐋 Docker Multi-Container Demo: Node.js + Redis
 
-[![CI Build and Test](https://github.com/ArtemRivnyi/docker-multi-container-demo/actions/workflows/ci.yml/badge.svg)](https://github.com/ArtemRivnyi/docker-multi-container-demo/actions/workflows/ci.yml)
-[![Docker Pulls](https://img.shields.io/docker/pulls/dxrklxrd/docker-multi-container-demo?logo=docker&label=Docker%20Hub )](https://hub.docker.com/r/dxrklxrd/docker-multi-container-demo )
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![CI Build and Test](https://github.com/ArtemRivnyi/docker-multi-container-demo/actions/workflows/ci.yml/badge.svg )](https://github.com/ArtemRivnyi/docker-multi-container-demo/actions/workflows/ci.yml )
+[![Docker Pulls](https://img.shields.io/docker/pulls/dxrklxrd/docker-multi-container-demo?logo=docker&label=Docker%20Hub  )](https://hub.docker.com/r/dxrklxrd/docker-multi-container-demo  )
+[![Docker Image Size](https://img.shields.io/docker/image-size/dxrklxrd/docker-multi-container-demo/latest?label=Image%20Size )](https://hub.docker.com/r/dxrklxrd/docker-multi-container-demo )
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg )](https://opensource.org/licenses/MIT )
+[![Last Commit](https://img.shields.io/github/last-commit/ArtemRivnyi/docker-multi-container-demo?label=Last%20Update )](https://github.com/ArtemRivnyi/docker-multi-container-demo/commits/main )
+[![GitHub Stars](https://img.shields.io/github/stars/ArtemRivnyi/docker-multi-container-demo?style=social )](https://github.com/ArtemRivnyi/docker-multi-container-demo/stargazers )
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white )
+![Redis](https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white )
 
 A professional multi-container Docker Compose setup demonstrating container orchestration, inter-service communication, and Redis caching in a cross-platform environment.
 
