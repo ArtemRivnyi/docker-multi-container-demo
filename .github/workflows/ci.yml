@@ -42,6 +42,8 @@ jobs:
     # Install API dependencies and run unit tests (if any)
     - name: Install API dependencies and run unit tests
       run: |
+        # Note: This step is for running tests on the host runner, not inside the container.
+        # It assumes your package.json is in the 'api' directory.
         cd api
         npm install
         # npm test # Uncomment this line if you have unit tests defined
@@ -61,12 +63,12 @@ jobs:
     - name: Build and push Docker image
       uses: docker/build-push-action@v5
       with:
-        context: .
+        context: ./api # <--- CRITICAL FIX: Set context to the 'api' folder
         push: true
         # Tag the image using your Docker Hub username
         tags: dxrklxrd/docker-multi-container-demo:latest
-        # Use the verified path from the previous step
-        file: ${{ steps.check_file.outputs.DOCKERFILE_PATH }} 
+        # The 'file' path is relative to the repository root
+        file: ./api/Dockerfile 
 
     # ------------------------------------------------------------------
     # Integration Tests (Optional but Recommended)

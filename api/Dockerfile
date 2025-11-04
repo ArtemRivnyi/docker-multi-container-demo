@@ -1,16 +1,17 @@
 # Use official Node.js image with Debian for better Windows compatibility
 FROM node:18-bullseye
 
-# Install curl for health checks
+# Install curl for health checks (required for the healthcheck instruction)
 RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
-# Set working directory
+# Set working directory inside the container
 WORKDIR /usr/src/app
 
-# Copy package files
+# Copy package files (package.json and package-lock.json)
+# This works because the build context is set to the 'api' folder in ci.yml
 COPY package*.json ./
 
-# Install dependencies
+# Install production dependencies
 RUN npm install --production
 
 # Copy application source code
