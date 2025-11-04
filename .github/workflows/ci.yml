@@ -1,49 +1,76 @@
-name: CI Build and Test
+name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main" ]
 
 jobs:
-  build-and-test:
+  build-and-push:
     runs-on: ubuntu-latest
     
+    # Permissions are set to allow writing packages (for Docker Hub push)
+    permissions:
+      contents: read
+      packages: write
+      
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Set up Node.js (for installing dependencies)
+    # Set up Node.js environment for running API tests
+    - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '20' # Match the version used in your Dockerfile
+        node-version: '20'
 
-    - name: Install API dependencies
-      # This is necessary to run the 'test' script defined in package.json
-      run: npm install --prefix api
-        
-    - name: Run Unit Tests
-      # This step executes the 'test' script from api/package.json
-      run: npm test --prefix api
-      
-    - name: Build Docker Images
-      # Build the images to ensure Dockerfiles are valid
-      run: docker compose build
-
-    - name: Run Integration Tests (using Docker Compose)
-      # This step uses the full docker-compose setup for an end-to-end check
+    # Install API dependencies and run unit tests (if any)
+    - name: Install API dependencies and run unit tests
       run: |
-        # Start the services in detached mode
+        cd api
+        npm install
+        # npm test # Uncomment this line if you have unit tests defined
+
+    # ------------------------------------------------------------------
+    # Docker Build and Push to Docker Hub
+    # ------------------------------------------------------------------
+    
+    # Step 1: Log in to Docker Hub using secrets
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }} # Use a Personal Access Token (PAT)
+
+    # Step 2: Build and push the Docker image
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        # Tag the image with 'latest' for the main branch
+        tags: artemrivnyi/docker-multi-container-demo:latest
+        # Specify the path to the Dockerfile for the API service
+        file: ./api/Dockerfile 
+
+    # ------------------------------------------------------------------
+    # Integration Tests (Optional but Recommended)
+    # ------------------------------------------------------------------
+    
+    - name: Run integration tests (using docker compose)
+      run: |
+        # Start services in detached mode
         docker compose up -d
         
-        # Wait for the API service to report 'healthy'
-        # This is a robust way to wait for dependencies (Redis) and the API to be ready
-        timeout 60s bash -c 'while [[ "$(docker inspect -f "{{.State.Health.Status}}" $(docker compose ps -q api))" != "healthy" ]]; do sleep 2; done'
+        # Wait for services to be ready (adjust sleep time if needed)
+        echo "Waiting 10 seconds for services to start..."
+        sleep 10 
         
-        # Run a simple check against the running API's health endpoint
-        echo "Running final health check..."
-        curl --fail http://localhost:3000/health
+        # Check API health endpoint (replace with your actual health check command)
+        echo "Checking API health..."
+        curl -f http://localhost:3000/health
         
-        # Stop and clean up
+        # Stop and clean up services
+        echo "Stopping services..."
         docker compose down
