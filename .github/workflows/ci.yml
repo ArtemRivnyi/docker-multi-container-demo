@@ -19,6 +19,20 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
+    # --- Dockerfile Path Check ---
+    # This step verifies the Dockerfile exists and sets the path as an output variable.
+    - name: Check for Dockerfile existence
+      id: check_file
+      run: |
+        DOCKERFILE_PATH="./api/Dockerfile"
+        if [ -f "$DOCKERFILE_PATH" ]; then
+          echo "DOCKERFILE_PATH=$DOCKERFILE_PATH" >> $GITHUB_OUTPUT
+        else
+          echo "Error: Dockerfile not found at $DOCKERFILE_PATH"
+          echo "Please ensure your Dockerfile is at the correct path or update the DOCKERFILE_PATH variable."
+          exit 1
+        fi
+
     # Set up Node.js environment for running API tests
     - name: Set up Node.js
       uses: actions/setup-node@v4
@@ -49,10 +63,10 @@ jobs:
       with:
         context: .
         push: true
-        # Tag the image with 'latest' for the main branch
-        tags: artemrivnyi/docker-multi-container-demo:latest
-        # Specify the path to the Dockerfile for the API service
-        file: ./api/Dockerfile 
+        # Tag the image using your Docker Hub username
+        tags: dxrklxrd/docker-multi-container-demo:latest
+        # Use the verified path from the previous step
+        file: ${{ steps.check_file.outputs.DOCKERFILE_PATH }} 
 
     # ------------------------------------------------------------------
     # Integration Tests (Optional but Recommended)
