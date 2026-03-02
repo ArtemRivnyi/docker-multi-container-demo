@@ -102,10 +102,14 @@ app.use('*', (req, res) => {
 });
 
 // Start the server
-app.listen(PORT, () => {
-  console.log(`✅ API server is running on port ${PORT}`);
-  console.log(`📍 Main endpoint: curl http://localhost:${PORT}`);
-  console.log(`📍 Health check: curl http://localhost:${PORT}/health`);
-  console.log(`📍 Set example: curl -X POST -H "Content-Type: application/json" -d '{"key":"test","value":"hello"}' http://localhost:${PORT}/set`);
-  console.log(`📍 Get example: curl http://localhost:${PORT}/get/test`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`✅ API server is running on port ${PORT}`);
+    console.log(`📍 Main endpoint: curl http://localhost:${PORT}`);
+    console.log(`📍 Health check: curl http://localhost:${PORT}/health`);
+    console.log(`📍 Set example: curl -X POST -H "Content-Type: application/json" -d '{"key":"test","value":"hello"}' http://localhost:${PORT}/set`);
+    console.log(`📍 Get example: curl http://localhost:${PORT}/get/test`);
+  });
+}
+
+module.exports = app;
