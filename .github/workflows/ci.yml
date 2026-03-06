@@ -46,7 +46,7 @@ jobs:
         # It assumes your package.json is in the 'api' directory.
         cd api
         npm install
-        # npm test # Uncomment this line if you have unit tests defined
+        npm test
 
     # ------------------------------------------------------------------
     # Docker Build and Push to Docker Hub
