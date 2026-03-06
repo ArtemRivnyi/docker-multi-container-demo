@@ -800,6 +800,31 @@ This multi-container setup is an excellent foundation for production deployment.
 
 ---
 
+## 🔮 Upcoming Changes (Feature Branches)
+
+The following improvements are ready on feature branches and will be merged into `main` in the near future:
+
+### `feature/enhanced-testing` — Test Coverage & CI
+
+- **17 new integration tests** added (`api/__tests__/api.integration.test.js`)
+  - 404 route handling (4 tests)
+  - Redis error simulation — SET/GET failures → 500 responses (2 tests)
+  - Input validation — empty body, missing key/value, special characters (4 tests)
+  - Root endpoint structure, timestamps, content-type headers (7 tests)
+- **Test coverage enabled** — `jest --coverage` (currently at **82.6%**)
+- **CI pipeline updated** — `npm test` now runs on every push and PR (was previously commented out)
+- Total: **23 tests** across 2 test suites, all passing ✅
+
+### `feature/traefik-reverse-proxy` — Reverse Proxy & Load Balancing
+
+- **Traefik v3.2** added as cloud-native reverse proxy (port **80** HTTP, port **8080** Dashboard)
+- **API scaled to 3 replicas** with automatic Round Robin load balancing
+- Port 3000 **no longer exposed** directly — traffic flows exclusively through Traefik
+- Traefik health checks on `/health` ensure only healthy replicas receive traffic
+- New file: `traefik.yml` — static Traefik configuration
+
+---
+
 ## 📄 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
