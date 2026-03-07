@@ -798,50 +798,28 @@ This multi-container setup is an excellent foundation for production deployment.
 | **API Health Check** |	![2_API_Health_Check](./assets/2_API_Health_Check.png) |
 | **Data Persistence Test** | ![3_Data_Persistence_Test](./assets/3_Data_Persistence_Test.png) |
 
-### 🚀 Performance \& Load Testing (k6)
+### ☁️ Automated Deployment (Terraform + Ansible)
 
-To empirically prove the efficiency of our **Redis Caching** and **Traefik Load Balancing**, we conduct load testing using [k6](https://k6.io/).
+This project features a fully automated **Infrastructure as Code (IaC)** deployment to an AWS EC2 instance.
 
-**1. Scenario: Cached Responses**
-When the data is cached in Redis, the API bypasses the simulated database delay.
+**1. Infrastructure Provisioning (Terraform)**  
+The `terraform/ec2-deployment` folder contains the HCL code to spin up an AWS VPC, Security Group, and an EC2 instance (`t2.micro` free tier eligible).
 ```bash
-# Run test targeting the cached endpoint
-k6 run -e SCENARIO=with_cache tests/load_test.js
+cd terraform/ec2-deployment
+# Set your public SSH key in terraform.tfvars or pass as flag
+terraform init
+terraform apply -var="public_key=$(cat ~/.ssh/id_rsa.pub)"
 ```
-*   **Result:** The system handles `~1500+ Requests Per Second (RPS)` with 95% of requests completing in under `25ms`.
 
-**2. Scenario: Uncached Responses (Database Load)**
-When the cache is missed, the API must process the request (simulated 2-3 seconds delay).
+**2. Configuration Management & App Deployment (Ansible)**  
+The `ansible` folder contains the playbook to configure the newly created EC2 instance. It installs Docker, Docker Compose, copies the project files, and starts the services via Traefik.
 ```bash
-# Run test forcing unique keys (cache miss)
-k6 run -e SCENARIO=no_cache tests/load_test.js
+cd ../../ansible
+# 1. Add the Terraform output IP to inventory.ini
+# 2. Run the deployment playbook
+ansible-playbook deploy.yml
 ```
-*   **Result:** Throughput drops significantly to `~50 RPS`, and 95% of request durations spike to `>2000ms`, demonstrating the critical role of the caching layer under heavy load.
-
----
-
-## 🔮 Upcoming Changes (Feature Branches)
-
-The following improvements are ready on feature branches and will be merged into `main` in the near future:
-
-### `feature/enhanced-testing` — Test Coverage & CI
-
-- **17 new integration tests** added (`api/__tests__/api.integration.test.js`)
-  - 404 route handling (4 tests)
-  - Redis error simulation — SET/GET failures → 500 responses (2 tests)
-  - Input validation — empty body, missing key/value, special characters (4 tests)
-  - Root endpoint structure, timestamps, content-type headers (7 tests)
-- **Test coverage enabled** — `jest --coverage` (currently at **82.6%**)
-- **CI pipeline updated** — `npm test` now runs on every push and PR (was previously commented out)
-- Total: **23 tests** across 2 test suites, all passing ✅
-
-### `feature/traefik-reverse-proxy` — Reverse Proxy & Load Balancing
-
-- **Traefik v3.2** added as cloud-native reverse proxy (port **80** HTTP, port **8080** Dashboard)
-- **API scaled to 3 replicas** with automatic Round Robin load balancing
-- Port 3000 **no longer exposed** directly — traffic flows exclusively through Traefik
-- Traefik health checks on `/health` ensure only healthy replicas receive traffic
-- New file: `traefik.yml` — static Traefik configuration
+After successful deployment, your scalable API with caching and reverse proxy is fully live!
 
 ---
 

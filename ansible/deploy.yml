@@ -1,0 +1,80 @@
+---
+- name: Deploy Caching-Microservice-Template to EC2
+  hosts: webservers
+  become: yes
+
+  tasks:
+    - name: Update APT package index
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install required packages
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+          - git
+        state: present
+
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker APT repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Install Docker and Docker Compose plugin
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose-plugin
+        state: present
+        update_cache: yes
+
+    - name: Ensure Docker service is running
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Create application directory
+      file:
+        path: /home/ubuntu/app
+        state: directory
+        owner: ubuntu
+        group: ubuntu
+        mode: '0755'
+
+    - name: Copy project files to server
+      copy:
+        src: ../
+        dest: /home/ubuntu/app/
+        owner: ubuntu
+        group: ubuntu
+        mode: preserve
+        # We don't want to copy massive directories like node_modules or terraform state
+        exclude:
+          - "node_modules*"
+          - ".git*"
+          - "terraform/*"
+          - ".terraform*"
+          - "ansible/*"
+
+    - name: Stop any existing containers
+      command: docker compose down
+      args:
+        chdir: /home/ubuntu/app
+      ignore_errors: yes
+
+    - name: Build and start Docker Compose services (API, Redis, Traefik)
+      command: docker compose up --build -d
+      args:
+        chdir: /home/ubuntu/app
