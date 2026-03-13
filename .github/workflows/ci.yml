@@ -80,12 +80,12 @@ jobs:
         docker compose up -d
         
         # Wait for services to be ready (adjust sleep time if needed)
-        echo "Waiting 10 seconds for services to start..."
-        sleep 10 
+        echo "Waiting 15 seconds for services to start..."
+        sleep 15 
         
-        # Check API health endpoint (replace with your actual health check command)
+        # Check API health endpoint (port 3002 is mapped to container port 3000 in docker-compose.yml)
         echo "Checking API health..."
-        curl -f http://localhost:3000/health
+        curl -f http://localhost:3002/health
         
         # Stop and clean up services
         echo "Stopping services..."

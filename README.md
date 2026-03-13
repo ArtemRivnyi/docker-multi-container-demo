@@ -43,7 +43,7 @@ A **production-ready template** for multi-service Docker Compose applications. F
 │  │  └─────────────────┘    └──────────────────┘  │    │
 │  └──────────────────────────────────────────────┘    │
 │           │                                           │
-│      Port 3000:3000                                   │
+│      Port 3002:3000                                   │
 └───────────┼───────────────────────────────────────────┘
             ▼
     ┌───────────────┐
@@ -67,15 +67,15 @@ docker-compose up --build
 
 ```bash
 # Health check
-curl http://localhost:3000/health
+curl http://localhost:3002/health
 
 # Store a key
 curl -X POST -H "Content-Type: application/json" \
   -d '{"key":"greeting","value":"Hello Docker!"}' \
-  http://localhost:3000/set
+  http://localhost:3002/set
 
 # Retrieve it
-curl http://localhost:3000/get/greeting
+curl http://localhost:3002/get/greeting
 ```
 
 ---
