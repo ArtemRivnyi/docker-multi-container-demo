@@ -2,9 +2,16 @@ services:
   # Node.js API application
   api:
     build: ./api
-    container_name: node_app
-    ports:
-      - "3002:3000"
+    # Removed explicit container_name to allow multiple replicas
+    # Removed host port mapping (3000:3000) so traffic only flows through Traefik
+    expose:
+      - "3000"
+    deploy:
+      replicas: 3
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=PathPrefix(`/`)"
+      - "traefik.http.services.api.loadbalancer.server.port=3000"
     depends_on:
       redis:
         condition: service_healthy
@@ -36,6 +43,26 @@ services:
       timeout: 10s
       retries: 3
       start_period: 20s
+    restart: unless-stopped
+
+  # Reverse Proxy / Load Balancer
+  traefik:
+    image: "traefik:v2.10"
+    container_name: traefik_proxy
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80" # Public HTTP port
+      - "8080:8080" # Traefik Dashboard (development only)
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      - app-network
+    depends_on:
+      - api
     restart: unless-stopped
 
 networks:
