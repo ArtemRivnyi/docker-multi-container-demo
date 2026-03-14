@@ -83,9 +83,9 @@ jobs:
         echo "Waiting 15 seconds for services to start..."
         sleep 15 
         
-        # Check API health endpoint (port 3002 is mapped to container port 3000 in docker-compose.yml)
+        # Check API health endpoint (Traefik exposes port 80 to the API container)
         echo "Checking API health..."
-        curl -f http://localhost:3002/health
+        curl -f http://localhost:80/health
         
         # Stop and clean up services
         echo "Stopping services..."
