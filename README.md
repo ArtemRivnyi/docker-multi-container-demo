@@ -36,25 +36,18 @@ A **production-ready template** for multi-service Docker Compose applications. F
 
 ## 🏗️ Architecture
 
-```
-┌──────────────────────────────────────────────────────┐
-│                    Docker Host                        │
-│  ┌──────────────────────────────────────────────┐    │
-│  │          Docker Compose (app-network)         │    │
-│  │                                               │    │
-│  │  ┌─────────────────┐    ┌──────────────────┐  │    │
-│  │  │  Node.js API     │◄──┤  Redis Cache      │  │    │
-│  │  │  (Express)       │    │  (In-Memory DB)   │  │    │
-│  │  │  Port: 3000      │    │  AOF Persistence  │  │    │
-│  │  └─────────────────┘    └──────────────────┘  │    │
-│  └──────────────────────────────────────────────┘    │
-│           │                                           │
-│      Port 3002:3000                                   │
-└───────────┼───────────────────────────────────────────┘
-            ▼
-    ┌───────────────┐
-    │    Client      │
-    └───────────────┘
+```mermaid
+graph TD
+    Client[Client] -->|:80| Traefik[Traefik Reverse Proxy]
+    Traefik -->|Load Balance| API1[Node.js API Replica 1]
+    Traefik -->|Load Balance| API2[Node.js API Replica 2]
+    Traefik -->|Load Balance| API3[Node.js API Replica 3]
+    API1 --> Redis[(Redis Cache\nAOF Persistence)]
+    API2 --> Redis
+    API3 --> Redis
+
+    style Traefik fill:#24A1C1,color:#fff
+    style Redis fill:#DC382D,color:#fff
 ```
 
 ---
