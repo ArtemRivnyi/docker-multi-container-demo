@@ -4,8 +4,14 @@
 [![Docker Hub Pulls](https://img.shields.io/docker/pulls/dxrklxrd/docker-multi-container-demo?logo=docker&label=Docker%20Hub)](https://hub.docker.com/r/dxrklxrd/docker-multi-container-demo)
 [![Image Size](https://img.shields.io/docker/image-size/dxrklxrd/docker-multi-container-demo/latest?label=Image%20Size)](https://hub.docker.com/r/dxrklxrd/docker-multi-container-demo)
 
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white)
-![Redis](https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white)
+<p align="left">
+  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" />
+  <img src="https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white" />
+  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" />
+  <img src="https://img.shields.io/badge/Traefik-24A1C1?style=for-the-badge&logo=traefikproxy&logoColor=white" />
+  <img src="https://img.shields.io/badge/Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=white" />
+  <img src="https://img.shields.io/badge/Ansible-EE0000?style=for-the-badge&logo=ansible&logoColor=white" />
+</p>
 
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Last Update](https://img.shields.io/github/last-commit/ArtemRivnyi/docker-multi-container-demo?label=Last%20Update)](https://github.com/ArtemRivnyi/docker-multi-container-demo/commits/main)
