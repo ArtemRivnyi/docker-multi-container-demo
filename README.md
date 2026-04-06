@@ -130,7 +130,7 @@ MIT License. See [LICENSE](LICENSE) for details.
 
 ## 🧰 Maintainer
 
-**Artem Rivnyi** — Junior Technical Support / DevOps Enthusiast
+**Artem Rivnyi** — DevOps Engineer
 
 * 📧 [artemrivnyi@outlook.com](mailto:artemrivnyi@outlook.com)
 * 🔗 [LinkedIn](https://www.linkedin.com/in/artem-rivnyi/)
