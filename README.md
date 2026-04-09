@@ -31,6 +31,7 @@ A **production-ready template** for multi-service Docker Compose applications. F
 | **Restart Policy** | ✅ | `unless-stopped` for auto-recovery |
 | **Data Persistence** | ✅ | Named volumes for Redis AOF |
 | **Automated Testing** | ✅ | CI runs unit + integration tests on every push |
+| **Infra as Code (IaC)** | ✅ | Automated setup via **Terraform** & **Ansible** |
 
 ---
 
