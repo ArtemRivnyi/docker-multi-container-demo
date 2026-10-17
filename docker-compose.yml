@@ -29,7 +29,7 @@ services:
 
   # Redis cache service - используем Debian-based образ для совместимости с Windows
   redis:
-    image: "redis:7-bullseye" # Изменили на Debian-based образ
+    image: "redis:7-bookworm" # Используем Debian Bookworm для актуальных пакетов и совместимости
     container_name: redis_cache
     platform: linux/amd64 # Явно указываем архитектуру
     command: redis-server --appendonly yes

@@ -1,8 +1,8 @@
-# Use official Node.js image with Debian for better Windows compatibility
-FROM node:18-bullseye
+# Use official Node.js LTS image with Debian Bookworm for reliability and cross-platform compatibility
+FROM node:20-bookworm-slim
 
 # Install curl for health checks (required for the healthcheck instruction)
-RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
 
 # Set working directory inside the container
 WORKDIR /usr/src/app

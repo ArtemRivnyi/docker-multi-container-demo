@@ -26,7 +26,7 @@ A **production-ready template** for multi-service Docker Compose applications. F
 | :--- | :--- | :--- |
 | **Health Checks** | ✅ | Docker waits for Redis before starting the API |
 | **Non-Root User** | ✅ | Container runs as unprivileged user |
-| **Minimal Base Image** | ✅ | `node:20-alpine` for reduced attack surface |
+| **Minimal Base Image** | ✅ | `node:20-bookworm-slim` for reduced attack surface & Windows compatibility |
 | **Env Configuration** | ✅ | `.env`-based config (12 Factor App) |
 | **Restart Policy** | ✅ | `unless-stopped` for auto-recovery |
 | **Data Persistence** | ✅ | Named volumes for Redis AOF |
@@ -135,5 +135,5 @@ MIT License. See [LICENSE](LICENSE) for details.
 
 * 📧 [artemrivnyi@outlook.com](mailto:artemrivnyi@outlook.com)
 * 🔗 [LinkedIn](https://www.linkedin.com/in/artem-rivnyi/)
-* 🌐 [Personal Projects](https://personal-page-devops.onrender.com/)
+* 🌐 [Personal Projects](https://artemrivnyi.com/)
 * 💻 [GitHub](https://github.com/ArtemRivnyi)

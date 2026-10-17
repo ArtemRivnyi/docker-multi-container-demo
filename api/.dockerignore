@@ -1,0 +1,7 @@
+node_modules
+npm-debug.log
+.coverage
+coverage
+__tests__
+*.test.js
+.env*
